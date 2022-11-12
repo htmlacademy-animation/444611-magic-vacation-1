@@ -4310,18 +4310,19 @@ img {
 }
 .cover-block {
   position: absolute;
-  top: 100%;
+  top: 0;
   height: 100%;
   width: 100%;
   left: 0;
-  right: 0;
   background-color: #5f458c;
-  z-index: 100;
-  transition: top 1s ease;
+  z-index: 0;
+  transition: transform 1s ease;
+  transform: translate3d(0, 100%, 0);
 }
 
 .cover-block.active {
-  top: 0;
+  transform: translate3d(0, 0, 0);
+  z-index: 5;
 }
 
 /*# sourceMappingURL=style.min.css.map*/
