@@ -1003,6 +1003,42 @@ img {
   overflow: hidden;
 }
 
+@keyframes increaseFromCircle {
+  0% {
+    transform: translate(65%, 0);
+    opacity: 0;
+  }
+  10% {
+    transform: translate(65%, 0);
+    opacity: 1;
+  }
+  50% {
+    transform: translate(65%, 0);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(0, 0);
+    opacity: 1;
+  }
+}
+@keyframes increaseFromCircleMobile {
+  0% {
+    transform: translate(85%, 0);
+    opacity: 0;
+  }
+  10% {
+    transform: translate(85%, 0);
+    opacity: 1;
+  }
+  50% {
+    transform: translate(85%, 0);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(0, 0);
+    opacity: 1;
+  }
+}
 .animation-screen {
   position: fixed;
   display: flex;
@@ -1454,6 +1490,8 @@ img {
   width: calc(100% - 21rem);
   margin-right: 3rem;
   height: 6rem;
+  overflow: hidden;
+  border-radius: 3rem;
 }
 .form__field label {
   position: absolute;
@@ -1464,11 +1502,7 @@ img {
   text-transform: uppercase;
   transform: translateY(-50%);
   opacity: 0;
-  animation-name: increaseOpacity;
-  animation-duration: 0.5s;
-  animation-timing-function: cubic-bezier(0, 0.32, 0, 0.33);
-  animation-fill-mode: forwards;
-  animation-delay: 0.6s;
+  transition: opacity 1s cubic-bezier(0, 0.32, 0, 0.33) 2s;
 }
 .form__field input {
   flex: none;
@@ -1485,11 +1519,9 @@ img {
   position: absolute;
   top: 0;
   right: 0;
-  width: 0;
-  animation-name: increaseWidth;
-  animation-duration: 0.5s;
-  animation-timing-function: cubic-bezier(0, 0.32, 0, 0.33);
-  animation-fill-mode: forwards;
+  width: 100%;
+  opacity: 0;
+  transform: translate(100%, 0);
 }
 .form__field input:focus {
   border: 1px solid #a67ee5;
@@ -1505,15 +1537,26 @@ img {
   .form__field input {
     padding: 0 2.5rem;
     font-size: 1.6rem;
-    animation-duration: 0.3s;
   }
 }
 @media (max-width: 768px) and (orientation: landscape) {
   .form__field input {
     padding: 0 2.5rem;
     font-size: 1.6rem;
-    animation-duration: 0.2s;
+    animation-duration: 1s;
   }
+}
+.active .form__field label {
+  opacity: 1;
+}
+.active .form__field input {
+  animation-name: increaseFromCircleMobile;
+  animation-duration: 2s;
+  animation-timing-function: ease-in;
+  animation-delay: 0s;
+  animation-iteration-count: 1;
+  animation-direction: normal;
+  animation-fill-mode: forwards;
 }
 @media (min-width: 2000px) {
   .form__field {
@@ -1621,22 +1664,6 @@ img {
   }
 }
 
-@keyframes increaseWidth {
-  0% {
-    width: 0;
-  }
-  100% {
-    width: 100%;
-  }
-}
-@keyframes increaseOpacity {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
 .game {
   flex-grow: 1;
   display: flex;
@@ -3187,10 +3214,7 @@ img {
   line-height: 5rem;
   text-align: center;
   transform: scale(0);
-  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-.page-loaded .rules__item::before {
-  transform: scale(1);
+  color: rgba(255, 255, 255, 0);
 }
 @media (max-width: 1024px) and (orientation: portrait) {
   .rules__item::before {
@@ -3216,60 +3240,31 @@ img {
   transform: translate3d(5%, 0, 0);
   transition: transform 0.5s, opacity 0.5s ease-out;
 }
-.page-loaded .rules__item p {
-  opacity: 1;
-  transform: translate3d(0, 0, 0);
-}
 @media (max-width: 1024px) and (orientation: portrait) {
   .rules__item p {
     min-height: calc(1.4rem * 2.2);
   }
-}
-.rules__item:first-child p {
-  transition-delay: 0.15s;
-}
-.rules__item:nth-child(2)::before {
-  transition-delay: 0.25s;
-}
-.rules__item:nth-child(2) p {
-  transition-delay: 0.5s;
-}
-.rules__item:nth-child(3)::before {
-  transition-delay: 0.5s;
-}
-.rules__item:nth-child(3) p {
-  transition-delay: 0.75s;
-}
-.rules__item:last-child::before {
-  transition-delay: 0.75s;
-}
-.rules__item:last-child p {
-  transition-delay: 1s;
 }
 
 .rules__link {
   position: absolute;
   bottom: 6rem;
   right: 5.6rem;
+  border-radius: 3.5rem;
+}
+.rules__link::before {
+  top: 0;
+  left: 0;
+  position: absolute;
+  transform: translate(65%, 0);
   opacity: 0;
-  width: 0;
 }
 .rules__link::after {
   content: "Погнали!";
   position: static;
-  white-space: wrap;
+  white-space: normal;
   opacity: 0;
-  transition: opacity 0.5s ease-out 1.3s;
-}
-.page-loaded .rules__link {
-  animation-name: btnScale30;
-  animation-duration: 0.3s;
-  animation-fill-mode: forwards;
-  animation-iteration-count: 1;
-  animation-delay: 1s;
-}
-.page-loaded .rules__link::after {
-  opacity: 1;
+  transition: opacity 0.5s ease-out 2s;
 }
 @media (min-width: 2000px) {
   .rules__link {
@@ -3282,9 +3277,6 @@ img {
     left: 0;
     right: 0;
     bottom: 4rem;
-  }
-  .page-loaded .rules__link {
-    animation-name: btnScale100;
   }
 }
 @media (max-width: 1024px) and (orientation: landscape) {
@@ -3299,30 +3291,83 @@ img {
   }
 }
 
-@keyframes btnScale30 {
-  0% {
-    opacity: 0;
-    width: 0;
+.rules.active .rules__link.animated {
+  overflow: hidden;
+}
+.rules.active .rules__link::before {
+  animation-name: increaseFromCircle;
+  animation-duration: 1s;
+  animation-timing-function: ease-in;
+  animation-delay: 0.8s;
+  animation-iteration-count: 1;
+  animation-direction: normal;
+  animation-fill-mode: forwards;
+}
+.rules.active .rules__link::after {
+  opacity: 1;
+}
+@media (max-width: 1024px) and (orientation: portrait) {
+  .rules.active .rules__link {
+    left: auto;
+    width: 100%;
   }
-  10% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 1;
-    width: 30%;
+  .rules.active .rules__link::before {
+    animation-name: increaseFromCircleMobile;
+    animation-duration: 1s;
+    animation-timing-function: ease-in;
+    animation-delay: 0.8s;
+    animation-iteration-count: 1;
+    animation-direction: normal;
+    animation-fill-mode: forwards;
   }
 }
-@keyframes btnScale100 {
+.rules.active .rules__item::before {
+  animation-name: bounce;
+  animation-duration: 0.25s;
+  animation-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation-delay: 0s;
+  animation-iteration-count: 1;
+  animation-direction: normal;
+  animation-fill-mode: forwards;
+}
+.rules.active .rules__item p {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+.rules.active .rules__item:first-child p {
+  transition-delay: 0.15s;
+}
+.rules.active .rules__item:nth-child(2)::before {
+  animation-delay: 0.25s;
+}
+.rules.active .rules__item:nth-child(2) p {
+  transition-delay: 0.5s;
+}
+.rules.active .rules__item:nth-child(3)::before {
+  animation-delay: 0.5s;
+}
+.rules.active .rules__item:nth-child(3) p {
+  transition-delay: 0.75s;
+}
+.rules.active .rules__item:last-child::before {
+  animation-delay: 0.75s;
+}
+.rules.active .rules__item:last-child p {
+  transition-delay: 1s;
+}
+
+@keyframes bounce {
   0% {
-    opacity: 0;
-    width: 0;
+    transform: scale(0);
+    color: rgba(255, 255, 255, 0);
   }
-  10% {
-    opacity: 1;
+  90% {
+    transform: scale(1);
+    color: rgba(255, 255, 255, 0);
   }
   100% {
-    opacity: 1;
-    width: 100%;
+    transform: scale(1);
+    color: white;
   }
 }
 .screen {
